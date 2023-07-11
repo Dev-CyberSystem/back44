@@ -1,22 +1,25 @@
-const canchas = [
+let canchas = [
     {
         id: 1,
         nombre: "Monumental",
         capacidad: 86500,
-        direccion: "Av. Figueroa Alcorta 7597"
+        club: "River",
+        direccion: "Av. Figueroa Alcorta 7597, CABA"
     },
     {
         id: 2,
-        nombre: "Nuevo Gasometro",
-        capacidad: 45000,
-        direccion: "Av. La Plata 1700"
+        nombre: "Libertadores de America",
+        capacidad: 50000,
+        club: "Independiente",
+        direccion: "Av. Mitre 470, Avellaneda"
     },
     {
         id: 3,
-        nombre: "Mario Alberto Kempes",
-        capacidad: 57000,
-        direccion: "Av. Cárcano s/n"
-    }
-];
+        nombre: "Madre de ciudades",
+        capacidad: 28500,
+        club: "Central Cordoba",
+        direccion: "Av. Circunvalacion, Santiago del Estero"
+    },
+]
 
 module.exports = canchas;

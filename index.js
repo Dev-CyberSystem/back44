@@ -52,6 +52,9 @@ const express = require("express"); // importar express
 const app = express(); // inicializar express
 const equipos = require("./equipos");
 
+app.use(express.json()); //permite recibir obj en formato json
+app.use(express.urlencoded({ extended: true })); //permite recibir parametros y queris en las rutas
+
 const PORT = 3000;
 
 app.listen(PORT, () => {
