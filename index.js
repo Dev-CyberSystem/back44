@@ -50,7 +50,7 @@
 
 const express = require("express"); // importar express
 const app = express(); // inicializar express
-const canchas = require("./canchas"); // importar el modulo canchas
+const equipos = require("./equipos");
 
 const PORT = 3000;
 
@@ -58,58 +58,12 @@ app.listen(PORT, () => {
   console.log(`Servidor puesto en marcha en el puerto ${PORT}`);
 });
 
+
+app.get("/equipos", (req, res) => {
+    res.send(equipos);
+});
+
 // crear una ruta en express
 
-app.get("/", (req, res) => {
-    res.send("Hola mundo desde Express");
-});
-
-app.get("/api/canchas", (req, res) => {
-    res.send(JSON.stringify(canchas));
-});
-
-app.get("/api/canchas/:id", (req, res) => {
-    let id = req.params.id;
-    let cancha = canchas.find((cancha) => cancha.id == id);
-    if (cancha) {
-        res.send(cancha);
-    }
-    else {
-        res.status(404).send("Cancha no encontrada");
-    }
-});
-
-//post
-
-app.post("/api/canchas", (req, res) => {
-    let canchaNueva = {
-        id: canchas.length + 1,
-        nombre: req.body.nombre,
-        capacidad: req.body.capacidad,
-        club: req.body.club,
-    };
-    canchas.push(canchaNueva);
-    res.send(canchas);  
-});
-
-
-//delete
-
-app.delete("/api/canchas/:id", (req, res) => {
-    let id = req.params.id;
-    let cancha = canchas.find((cancha) => cancha.id == id);
-    if (cancha) {
-        canchas = canchas.filter((cancha) => cancha.id != id);
-        res.send(canchas);
-    }
-    else {
-        res.status(404).send("Cancha no encontrada");
-    }
-});
-
-
-
-
-
-
+app.use("/api", require("./routes/RutasCanchas"));
 
