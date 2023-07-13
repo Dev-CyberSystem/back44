@@ -50,23 +50,26 @@
 
 const express = require("express"); // importar express
 const app = express(); // inicializar express
-const equipos = require("./equipos");
+const connectDb = require("./db/mongodb"); // importar la conexion a la base de datos
 
 app.use(express.json()); //permite recibir obj en formato json
 app.use(express.urlencoded({ extended: true })); //permite recibir parametros y queris en las rutas
 
-const PORT = 3000;
+const PORT = 8081;
 
-app.listen(PORT, () => {
-  console.log(`Servidor puesto en marcha en el puerto ${PORT}`);
-});
+const initApp = async () => {
+  try {
+    app.listen(PORT, () => {
+      console.log(`Servidor puesto en marcha en el puerto ${PORT}`);
+    });
+    await connectDb();
+  } catch (error) {
+    console.log("Error al iniciar la aplicacion");
+  }
+};
 
-
-app.get("/equipos", (req, res) => {
-    res.send(equipos);
-});
+initApp();
 
 // crear una ruta en express
 
 app.use("/api", require("./routes/RutasCanchas"));
-
