@@ -51,10 +51,11 @@
 const express = require("express"); // importar express
 const app = express(); // inicializar express
 const connectDb = require("./db/mongodb"); // importar la conexion a la base de datos
+const cors = require("cors");
 
 app.use(express.json()); //permite recibir obj en formato json
 app.use(express.urlencoded({ extended: true })); //permite recibir parametros y queris en las rutas
-
+app.use(cors());
 const PORT = 8081;
 
 const initApp = async () => {
@@ -73,3 +74,4 @@ initApp();
 // crear una ruta en express
 
 app.use("/api", require("./routes/RutasCanchas"));
+
