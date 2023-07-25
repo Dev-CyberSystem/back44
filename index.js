@@ -52,11 +52,14 @@ const express = require("express"); // importar express
 const app = express(); // inicializar express
 const connectDb = require("./db/mongodb"); // importar la conexion a la base de datos
 const cors = require("cors");
+const comprobacionJwt = require("./middleware/comprobacionJwt");
 
 app.use(express.json()); //permite recibir obj en formato json
 app.use(express.urlencoded({ extended: true })); //permite recibir parametros y queris en las rutas
 app.use(cors());
-const PORT = 8081;
+require("dotenv").config();
+
+const PORT = process.env.PORT || 3000;
 
 const initApp = async () => {
   try {
@@ -74,4 +77,5 @@ initApp();
 // crear una ruta en express
 
 app.use("/api", require("./routes/RutasCanchas"));
-
+app.use("/api/user", require("./routes/RutasUsuarios"));
+app.use("/protegida", comprobacionJwt, require("./routes/RutaAdmin"));
