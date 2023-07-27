@@ -2,7 +2,6 @@ const Usuarios = require("../models/usuarios.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-
 const register = async (req, res) => {
   try {
     const { nombre, apellido, email, password, rol } = req.body;
@@ -23,38 +22,48 @@ const register = async (req, res) => {
 };
 
 const loginUsuario = async (req, res) => {
-    const user = await Usuarios.findOne({ email: req.body.email });
+  const user = await Usuarios.findOne({ email: req.body.email });
 
-    if (!user) {
-        return res.status(400).json("Usuario y/o Password incorrecto");
-    }
+  if (!user) {
+    return res.status(400).json("Usuario y/o Password incorrecto");
+  }
 
-    const match = await bcrypt.compare(req.body.password, user.password);
+  const match = await bcrypt.compare(req.body.password, user.password);
 
-    if (!match) {
-        return res.status(400).json("Usuario y/o Password incorrecto");
-    }
+  if (!match) {
+    return res.status(400).json("Usuario y/o Password incorrecto");
+  }
 
-    // generar el token
+  // generar el token
 
-    const token = jwt.sign({
-        id: user._id,
-        nombre: user.nombre,
-        apellido: user.apellido,
-        rol: user.rol
+  const token = jwt.sign(
+    {
+      id: user._id,
+      nombre: user.nombre,
+      apellido: user.apellido,
+      rol: user.rol,
     },
-        process.env.SECRET_KEY,
-        {expiresIn: "1d"}
-    );
+    process.env.SECRET_KEY,
+    { expiresIn: "1d" }
+  );
 
-    res.header("auth-token", token).json({
-        error: null,
-        data: { token }
-    });
+  res.header("auth-token", token).json({
+    error: null,
+    data: { token },
+  });
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const usuarios = await Usuarios.find();
+    res.json(usuarios);
+  } catch (error) {
+    res.status(400).json("Usuarios no encontrados");
+  }
+};
 
 module.exports = {
-    register,
-    loginUsuario
-}
+  register,
+  loginUsuario,
+  getAllUsers
+};
